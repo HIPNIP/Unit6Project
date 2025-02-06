@@ -2,18 +2,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.HashMap;
-import java.util.Map;
 
-public class TextAnalyzer{
+public class TextAnalyzer {
     private JFrame frame;
     private JTextArea textArea;
     private JLabel sentimentLabel;
-    private Map<String, Double> sentimentMap;
+    private String[] sentimentData;
 
     public TextAnalyzer() {
-        sentimentMap = new HashMap<>();
-        loadSentimentData("sentiment.txt"); // Ensure "sentiment.txt" exists with words and values
+        sentimentData = FileReader.toStringArray("sentiment.txt"); // Ensure "sentiment.txt" exists with words and values
 
         frame = new JFrame("Sentiment Analyzer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,23 +36,22 @@ public class TextAnalyzer{
         frame.setVisible(true);
     }
 
-    private void loadSentimentData(String filePath) {
-        String[] lines = FileReader.toStringArray(filePath);
-        for (String line : lines) {
-            String[] parts = line.split(",");
-            if (parts.length == 2) {
-                sentimentMap.put(parts[0].toLowerCase(), Double.parseDouble(parts[1]));
-            }
-        }
-    }
-
     private void updateSentimentScore() {
         String text = textArea.getText().toLowerCase();
         String[] words = text.split("\\s+");
         double totalScore = 0.0;
 
-        for (String word : words) {
-            totalScore += sentimentMap.getOrDefault(word, 0.0);
+        for (String line : sentimentData) {
+            String[] parts = line.split(",");
+            if (parts.length == 2) {
+                String word = parts[0].toLowerCase();
+                double score = Double.parseDouble(parts[1]);
+                for (String inputWord : words) {
+                    if (inputWord.equals(word)) {
+                        totalScore += score;
+                    }
+                }
+            }
         }
 
         sentimentLabel.setText("Sentiment Score: " + totalScore);
