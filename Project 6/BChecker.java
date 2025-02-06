@@ -33,7 +33,7 @@ public class BChecker {
                 // }
 
                 String currentText = textArea.getText();
-                
+
                 int bCount = 0;
                 for(int i = 0; i < currentText.length(); i++) {
                     if(currentText.substring(i,i+1).equals("b")) {
@@ -46,9 +46,5 @@ public class BChecker {
         });
 
         frame.setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        new BChecker();
     }
 }

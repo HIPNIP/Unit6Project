@@ -2,14 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TextAnalyzer {
+public class TextAnalyzer{
     private JFrame frame;
     private JTextArea textArea;
     private JLabel sentimentLabel;
@@ -17,7 +13,7 @@ public class TextAnalyzer {
 
     public TextAnalyzer() {
         sentimentMap = new HashMap<>();
-        loadSentimentData("sentimentvalues.txt"); // Ensure "sentiment.txt" exists with words and values
+        loadSentimentData("sentiment.txt"); // Ensure "sentiment.txt" exists with words and values
 
         frame = new JFrame("Sentiment Analyzer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,16 +40,12 @@ public class TextAnalyzer {
     }
 
     private void loadSentimentData(String filePath) {
-        try (BufferedReader br = new BufferedReader(new FileReader(new File(filePath)))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split(",");
-                if (parts.length == 2) {
-                    sentimentMap.put(parts[0].toLowerCase(), Double.parseDouble(parts[1]));
-                }
+        String[] lines = FileReader.toStringArray(filePath);
+        for (String line : lines) {
+            String[] parts = line.split(",");
+            if (parts.length == 2) {
+                sentimentMap.put(parts[0].toLowerCase(), Double.parseDouble(parts[1]));
             }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error loading sentiment data", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
