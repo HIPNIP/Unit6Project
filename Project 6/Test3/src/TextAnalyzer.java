@@ -10,7 +10,7 @@ public class TextAnalyzer {
     private String[] sentimentData;
 
     public TextAnalyzer() {
-        sentimentData = FileReader.toStringArray("sentiment.txt"); // Ensure "sentiment.txt" exists with words and values
+        sentimentData = FileReader.toStringArray("src/sentimentvalues.txt"); // Ensure "sentiment.txt" exists with words and values
 
         frame = new JFrame("Sentiment Analyzer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
