@@ -28,13 +28,15 @@ public class TextAnalyzer {
         places = new ArrayList<>();
 
         // Read sentiment values into ArrayList
-        for (String line : FileReader.toStringArray("src/sentimentvalues.txt")) {
-            sentimentData.add(line);
+        String[] sentimentLines = FileReader.toStringArray("src/sentimentvalues.txt");
+        for (int i = 0; i < sentimentLines.length; i++) {
+            sentimentData.add(sentimentLines[i]);
         }
 
         // Read places into ArrayList and convert to lowercase
-        for (String place : FileReader.toStringArray("src/places.txt")) {
-            places.add(place.toLowerCase());
+        String[] placeLines = FileReader.toStringArray("src/places.txt");
+        for (int i = 0; i < placeLines.length; i++) {
+            places.add(placeLines[i].toLowerCase());
         }
 
         // Initialize GUI frame
@@ -83,20 +85,19 @@ public class TextAnalyzer {
         for (int i = 0; i < sentimentData.size(); i++) {
             String line = sentimentData.get(i);
             String[] parts = line.split(",");
-            if (parts.length == 2) {
-                String word = parts[0].toLowerCase();
-                double score = Double.parseDouble(parts[1]);
-                for (String inputWord : words) {
-                    if (inputWord.equals(word)) {
-                        totalScore += score;
-                    }
+            String word = parts[0].toLowerCase(); // Get the word
+            double score = Double.parseDouble(parts[1]); // Get the sentiment score
+
+            for (int j = 0; j < words.length; j++) {
+                if (words[j].equals(word)) {
+                    totalScore += score;
                 }
             }
         }
 
         // Algorithm 2: Place Name Matching (Loop + Conditional)
-        for (String word : words) {
-            if (places.contains(word)) {
+        for (int i = 0; i < words.length; i++) {
+            if (places.contains(words[i])) {
                 placeCount++;
             }
         }
